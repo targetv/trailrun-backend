@@ -11,7 +11,60 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Admin {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  role     Role   @default(ADMIN)
+}
+
 model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
+  id              Int     @id @default(autoincrement())
+  email           String  @unique
+  firstname       String
+  lastname        String
+  dob             String
+  address         String
+  postcode        String
+  telephonenumber String
+  gender          String
+  ageonraceday    Int
+  shirtsize       String
+  clubmember      Boolean
+  clubname        String?
+  registernumber  Int?
+  signature       String
+  order           Order[]
+  role            Role    @default(USER)
+
+}
+
+model Product {
+  id           Int     @id @default(autoincrement())
+  productname  String
+  productprice Int
+  order        Order[]
+}
+
+model Order {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userid], references: [id])
+  userid    Int
+  product   Product   @relation(fields: [productid], references: [id])
+  productid Int
+  Payment   Payment[]
+}
+
+model Payment {
+  id             Int     @id @default(autoincrement())
+  order          Order   @relation(fields: [orderid], references: [id])
+  orderid        Int
+  paymenttoken   String
+  paymentsuccess Boolean
+
+}
+
+enum Role {
+  USER
+  ADMIN
 }
