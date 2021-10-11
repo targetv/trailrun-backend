@@ -4,7 +4,9 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const userRouter = require("./resources/user/router");
-const adminRouter = require("./resources/auth/router");
+const authRouter = require("./resources/auth/router");
+const adminRouter = require("./resources/admin/router");
+const paypalRouter = require("./resources/paypal/router");
 const cookieParser = require("cookie-parser");
 const { validateToken } = require("./utils/authGenerator");
 
@@ -22,14 +24,20 @@ app.use(cookieParser());
 /* SETUP ROUTES */
 
 app.use("/", userRouter);
-app.use("/", adminRouter);
+app.use("/", authRouter);
+app.use("/", paypalRouter);
 
 app.use((req, res, next) => {
   const token = req.cookies.token;
+  if (!token) {
+    res.status(401).json("You need to be logged in to access this data");
+  }
+
   const userData = validateToken(token);
-  console.log(userData);
+
   if (userData) {
     req.currentUser = userData;
+    console.log("passed Auth", userData);
     next();
   } else {
     res
@@ -38,12 +46,9 @@ app.use((req, res, next) => {
   }
 });
 
-/*
+// Secure Routes
 
-
-Secure paths
-
-*/
+app.use("/", adminRouter);
 
 // app.get("*", (req, res) => {
 //   res.json({ ok: true });

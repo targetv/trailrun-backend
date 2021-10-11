@@ -14,12 +14,11 @@ const register = async (req, res) => {
     });
     res.status(201).json({ createUser });
   } catch (error) {
-    console.log("ERROR", error);
     if (error.code === "P2002") {
       res.status(501).json({
         error: {
           ...error,
-          message: "User already exists",
+          message: "User already exists.",
         },
       });
     } else {
