@@ -7,6 +7,7 @@ const userRouter = require("./resources/user/router");
 const authRouter = require("./resources/auth/router");
 const adminRouter = require("./resources/admin/router");
 const paypalRouter = require("./resources/paypal/router");
+const orderRouter = require("./resources/order/router");
 const cookieParser = require("cookie-parser");
 const { validateToken } = require("./utils/authGenerator");
 
@@ -15,7 +16,7 @@ const app = express();
 /* SETUP MIDDLEWARE */
 
 app.disable("x-powered-by");
-app.use(cors({ origin: "http://localhost:3001", credentials: true }));
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use("/", userRouter);
 app.use("/", authRouter);
 app.use("/", paypalRouter);
+app.use("/", orderRouter);
 
 app.use((req, res, next) => {
   const token = req.cookies.token;

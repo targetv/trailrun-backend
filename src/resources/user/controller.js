@@ -12,7 +12,7 @@ const register = async (req, res) => {
         ...newUser,
       },
     });
-    res.status(201).json({ createUser });
+    res.status(201).json(createUser.id);
   } catch (error) {
     if (error.code === "P2002") {
       res.status(501).json({

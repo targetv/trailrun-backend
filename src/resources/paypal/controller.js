@@ -8,17 +8,12 @@ let clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 let environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 let client = new paypal.core.PayPalHttpClient(environment);
 
-const storeItems = new Map([
-  [1, { price: 12, name: "None Club Member" }],
-  [2, { price: 10, name: "Club Member" }],
-]);
-
 const createOrder = async (req, res) => {
   const request = new paypal.orders.OrdersCreateRequest();
   let total = req.body.items.map((item) => {
-    let sum = 0;
-    return (sum += storeItems.get(item.id).price * item.quantity);
+    return item.product.productprice;
   });
+
   total = total.toString();
   request.prefer("return=representation");
   request.requestBody({
