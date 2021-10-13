@@ -19,23 +19,23 @@ model Admin {
 }
 
 model User {
-  id              Int     @id @default(autoincrement())
-  email           String  @unique
-  firstname       String
-  lastname        String
-  dob             String
-  address         String
-  postcode        String
-  telephonenumber String
-  gender          String
-  ageonraceday    String
-  shirtsize       String
-  clubmember      Boolean
+  id              Int      @id @default(autoincrement())
+  email           String   @unique
+  firstname       String?
+  lastname        String?
+  dob             String?
+  address         String?
+  postcode        String?
+  telephonenumber String?
+  gender          String?
+  ageonraceday    String?
+  shirtsize       String?
+  clubmember      Boolean?
   clubname        String?
   registernumber  Int?
   signature       String
   order           Order[]
-  role            Role    @default(USER)
+  role            Role     @default(USER)
 
 }
 

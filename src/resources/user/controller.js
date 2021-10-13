@@ -15,7 +15,7 @@ const register = async (req, res) => {
     res.status(201).json(createUser.id);
   } catch (error) {
     if (error.code === "P2002") {
-      res.status(501).json({
+      res.status(406).json({
         error: {
           ...error,
           message: "User already exists.",
