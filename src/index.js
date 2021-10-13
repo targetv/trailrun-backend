@@ -8,6 +8,7 @@ const authRouter = require("./resources/auth/router");
 const adminRouter = require("./resources/admin/router");
 const paypalRouter = require("./resources/paypal/router");
 const orderRouter = require("./resources/order/router");
+const paymentRouter = require("./resources/paymentConfirm/router");
 const cookieParser = require("cookie-parser");
 const { validateToken } = require("./utils/authGenerator");
 
@@ -28,6 +29,7 @@ app.use("/", userRouter);
 app.use("/", authRouter);
 app.use("/", paypalRouter);
 app.use("/", orderRouter);
+app.use("/", paymentRouter);
 
 app.use((req, res, next) => {
   const token = req.cookies.token;

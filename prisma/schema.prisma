@@ -56,11 +56,18 @@ model Order {
 }
 
 model Payment {
-  id             Int     @id @default(autoincrement())
-  order          Order   @relation(fields: [orderid], references: [id])
-  orderid        Int
-  paymenttoken   String
-  paymentsuccess Boolean
+  id                Int    @id @default(autoincrement())
+  order             Order  @relation(fields: [orderid], references: [id])
+  orderid           Int    @unique
+  payeremail        String
+  payername         String
+  payerpaypalid     String
+  paymentid         String
+  paymenttime       String
+  paymentstatus     String
+  paymentrefundlink String
+  paymentorderlink  String
+
 
 }
 
