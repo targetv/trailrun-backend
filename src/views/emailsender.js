@@ -29,9 +29,6 @@ const emailSender = async (recieverEmail, subject, templatehtml, props) => {
     subject: subject,
     template: templatehtml,
   });
-
-  console.log("Message sent: ", info.messageId);
-  console.log("Preview Url", nodemailer.getTestMessageUrl(info));
 };
 
 module.exports = {

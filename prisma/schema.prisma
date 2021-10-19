@@ -28,7 +28,7 @@ model User {
   postcode        String?
   telephonenumber String?
   gender          String?
-  ageonraceday    String?
+  ageonraceday    Int?
   shirtsize       String?
   clubmember      Boolean?
   clubname        String?
