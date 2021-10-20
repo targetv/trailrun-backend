@@ -7,8 +7,8 @@ const saveOrder = async (req, res) => {
   try {
     const saveOrder = await prisma.order.create({
       data: {
-        userid: Number(orderBody.userid),
-        productid: Number(orderBody.productid),
+        userid: parseInt(orderBody.userid),
+        productid: parseInt(orderBody.productid),
       },
     });
     res.status(201).json({ ...saveOrder });

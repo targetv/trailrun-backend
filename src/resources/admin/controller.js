@@ -36,6 +36,16 @@ const ageCategory = async (req, res) => {
           { ageonraceday: { gte: age.num1 } },
           { ageonraceday: { lte: age.num2 } },
         ],
+        gender: age.gender,
+      },
+      select: {
+        id: true,
+        firstname: true,
+        lastname: true,
+        ageonraceday: true,
+        clubname: true,
+        shirtsize: true,
+        gender: true,
       },
     });
     res.status(201).json([...getAge]);

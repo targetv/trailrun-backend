@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const register = async (req, res) => {
   const newUser = {
     ...req.body,
+    ageonraceday: parseInt(req.body.ageonraceday),
   };
 
   try {
@@ -22,7 +23,7 @@ const register = async (req, res) => {
         },
       });
     } else {
-      res.status(500).json({ error });
+      res.status(500).json({ ...error });
     }
   }
 };
