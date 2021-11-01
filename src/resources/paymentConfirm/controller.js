@@ -19,19 +19,19 @@ const paymentStatus = async (req, res) => {
         },
       },
     });
-
-    emailSender(
-      `${createPayment.order.user.email}`,
-      "Registration Completed",
-      "index"
-    ).catch(console.error);
+    // Turned off email sender
+    // emailSender(
+    //   `${createPayment.order.user.email}`,
+    //   "Registration Completed",
+    //   "index"
+    // ).catch(console.error);
     res.json({ ...createPayment });
   } catch (error) {
-    emailSender(
-      `${createPayment.order.user.email}`,
-      "Registration Failed",
-      "failedpayment"
-    ).catch(console.log(error));
+    // emailSender(
+    //   `${createPayment.order.user.email}`,
+    //   "Registration Failed",
+    //   "failedpayment"
+    // ).catch(console.log(error));
     console.log("Error", error);
     res.status(401).json({ error });
   }
