@@ -17,7 +17,7 @@ const app = express();
 /* SETUP MIDDLEWARE */
 
 app.disable("x-powered-by");
-app.use(cors({ credentials: true }));
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
@@ -32,24 +32,24 @@ app.use("/", paypalRouter);
 app.use("/", orderRouter);
 app.use("/", paymentRouter);
 
-app.use((req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    res.status(401).json("You need to be logged in to access this data");
-  }
+// app.use((req, res, next) => {
+//   const token = req.cookies.token;
+//   if (!token) {
+//     res.status(401).json("You need to be logged in to access this data");
+//   }
 
-  const userData = validateToken(token);
+//   const userData = validateToken(token);
 
-  if (userData) {
-    req.currentUser = userData;
-    console.log("passed Auth", userData);
-    next();
-  } else {
-    res
-      .status(401)
-      .json({ err: "You need to be logged in to access this data" });
-  }
-});
+//   if (userData) {
+//     req.currentUser = userData;
+//     console.log("passed Auth", userData);
+//     next();
+//   } else {
+//     res
+//       .status(401)
+//       .json({ err: "You need to be logged in to access this data" });
+//   }
+// });
 
 // Secure Routes
 
