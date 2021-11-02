@@ -43,7 +43,6 @@ const AdminLogin = async (req, res) => {
     }
     if (await bcrypt.compare(userCredentials.password, getUser.password)) {
       const token = createToken({ email: getUser.email, id: getUser.id });
-      console.log(token);
       res.cookie("token", token, { httpOnly: true, maxAge: 86400000 });
       res.status(201).json({ id: getUser.id, email: getUser.email });
     } else {
