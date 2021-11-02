@@ -14,7 +14,7 @@ const saveOrder = async (req, res) => {
     res.status(201).json({ ...saveOrder });
   } catch (error) {
     console.log("Error", error);
-    res.status(401).json({ error });
+    res.status(401).json({ ...error });
   }
 };
 
