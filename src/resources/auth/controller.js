@@ -43,7 +43,12 @@ const AdminLogin = async (req, res) => {
     }
     if (await bcrypt.compare(userCredentials.password, getUser.password)) {
       const token = createToken({ email: getUser.email, id: getUser.id });
-      res.cookie("token", token, { httpOnly: true, maxAge: 86400000 });
+      res.cookie("token", token, {
+        httpOnly: true,
+        maxAge: 86400000,
+        sameSite: true,
+        path: "/",
+      });
       res.status(201).json({ id: getUser.id, email: getUser.email });
     } else {
       res.status(401).json({ error: "Password Incorrect" });
