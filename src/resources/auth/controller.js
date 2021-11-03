@@ -45,6 +45,8 @@ const AdminLogin = async (req, res) => {
       const token = createToken({ email: getUser.email, id: getUser.id });
       res.cookie("token", token, {
         maxAge: 86400000,
+        secure: true,
+        httpOnly: true,
         path: "/",
       });
       res.status(201).json({ id: getUser.id, email: getUser.email });
