@@ -47,7 +47,8 @@ const AdminLogin = async (req, res) => {
         maxAge: 86400000,
         secure: true,
         httpOnly: true,
-        path: "/",
+        domain: `${process.env.FRONTEND_URL}`,
+        sameSite: "none",
       });
       res.status(201).json({ id: getUser.id, email: getUser.email });
     } else {
