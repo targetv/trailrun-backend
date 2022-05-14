@@ -3,14 +3,13 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const userRouter = require("./resources/user/router");
-const authRouter = require("./resources/auth/router");
-const adminRouter = require("./resources/admin/router");
-const paypalRouter = require("./resources/paypal/router");
-const orderRouter = require("./resources/order/router");
-const paymentRouter = require("./resources/paymentConfirm/router");
+const { graphqlHTTP } = require("express-graphql");
+const schema = require("../graphql/schema");
+const graphqlResolver = require("../graphql/resolvers");
+
 const cookieParser = require("cookie-parser");
 const { validateToken } = require("./utils/authGenerator");
+const { mongoConnect } = require("./utils/database");
 
 const app = express();
 
@@ -19,18 +18,20 @@ const app = express();
 app.disable("x-powered-by");
 app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(express.json());
-
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-app.use(cookieParser());
+
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    rootValue: graphqlResolver,
+    graphiql: true,
+  })
+);
 
 /* SETUP ROUTES */
-
-app.use("/", userRouter);
-app.use("/", authRouter);
-app.use("/", paypalRouter);
-app.use("/", orderRouter);
-app.use("/", paymentRouter);
 
 app.use((req, res, next) => {
   const token = req.cookies.token;
@@ -53,8 +54,6 @@ app.use((req, res, next) => {
 
 // Secure Routes
 
-app.use("/", adminRouter);
-
 // app.get("*", (req, res) => {
 //   res.json({ ok: true });
 // });
@@ -63,6 +62,8 @@ app.use("/", adminRouter);
 
 const port = process.env.PORT || 3030;
 
-app.listen(port, () => {
-  console.log(`\n🚀 Server is running on http://localhost:${port}/\n`);
+mongoConnect(() => {
+  app.listen(port, () => {
+    console.log(`\n🚀 Server is running on http://localhost:${port}/\n`);
+  });
 });
