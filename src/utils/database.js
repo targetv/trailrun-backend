@@ -1,9 +1,9 @@
 const { MongoClient } = require("mongodb");
-
+const dotenv = require("dotenv").config();
 let _db;
 
 const mongoConnect = (callback) => {
-  MongoClient.connect("mongodb://docker:mongopw@localhost:55000")
+  MongoClient.connect(process.env.DATABASE_URL)
     .then((client) => {
       console.log("Server has connected");
       _db = client.db();
