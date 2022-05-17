@@ -3,7 +3,7 @@ require("dotenv").config();
 let _db;
 const mongoConnect = (callback) => {
   MongoClient.connect(
-    "mongodb+srv://targetv:Magic1998&&@cluster0.qhk1u.mongodb.net/test"
+    `mongodb+srv://awsAdmin:${process.env.DBPASSWORD}@cluster0.qhk1u.mongodb.net/test`
   )
     .then((client) => {
       console.log("Server has connected");
