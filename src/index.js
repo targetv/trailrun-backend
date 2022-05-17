@@ -56,14 +56,17 @@ app.use(morgan("dev"));
 // Sign in to see your own test API key embedded in code samples.
 
 app.use(express.static("public"));
+// Calculates the price of the items.
 const calculateOrderAmount = (item) => {
   console.log(item);
   if (item === "None Club Member") {
-    return 1200;
+    return 1400;
   } else {
-    return 1000;
+    return 1200;
   }
 };
+
+// Rest api end point for creating payment intents for stripe
 
 app.post("/create-payment-intent", async (req, res) => {
   const { item, email } = req.body;
@@ -86,11 +89,18 @@ app.post("/create-payment-intent", async (req, res) => {
 
 const port = process.env.PORT || 4242;
 
+//Callback function for when the mongo db connection has been made, this will allow the express and graphql server functions to start up.
 mongoConnect(() => {
   const db = getDb();
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    // Look at this when landed due to not possibly being correct
+    cors: {
+      origin: process.env.FRONTEND_URL,
+      credentials: true,
+      csrfPrevention: true,
+    },
     dataSources: () => {
       return {
         users: new UserAPI(db.collection("users")),
@@ -98,7 +108,7 @@ mongoConnect(() => {
     },
   });
   server.listen().then((resp) => {
-    console.log("Port 4000");
+    console.log("Apollo server is on Port 4000");
   });
   app.listen(port, () => {
     console.log(`\n🚀 Server is running on http://localhost:${port}/\n`);
