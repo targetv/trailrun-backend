@@ -8,7 +8,7 @@
     "start": "nodemon src/index.js",
     "prodstart": "node src/index.js"
   },
-  mongodb+srv://targetv:Magic1998&&@cluster0.qhk1u.mongodb.net/test
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
